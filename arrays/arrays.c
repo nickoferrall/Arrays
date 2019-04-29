@@ -29,7 +29,7 @@ Array *create_array(int capacity)
   arr->count = 0;
 
   // Allocate memory for elements
-  arr->elements = malloc(capacity * sizeof(char *));
+  arr->elements = malloc(capacity * sizeof(char *)); // creating space for capacity * pointer
 
   return arr;
 }
@@ -71,6 +71,7 @@ void destroy_array(Array *arr)
 //   free(arr->elements);
 
 //   // Update the elements and capacity to new values
+//   // arr-> elements = storage
 // }
 
 // /************************************
@@ -84,17 +85,24 @@ void destroy_array(Array *arr)
 //  *
 //  * Throw an error if the index is out of range.
 //  *****/
-// char *arr_read(Array *arr, int index)
-// {
 
-//   // Throw an error if the index is greater or equal to than the current count
-//   int len = sizeof(arr);
-//   printf("The length is.. %d\n", len);
+char *arr_read(Array *arr, int index)
+{
 
-//   printf("The letter is.. %s\n", arr->elements);
-//   // Otherwise, return the element at the given index
-//   return 0;
-// }
+  // Throw an error if the index is greater or equal to than the current count
+  if (index >= arr->count)
+  {
+    printf("Error: index %d is not valid.\n", index);
+  }
+
+  // Otherwise, return the element at the given index
+  else
+  {
+    return arr->elements[index];
+  }
+
+  return 0;
+}
 
 // /*****
 //  * Insert an element to the array at the given index
@@ -123,12 +131,14 @@ void arr_append(Array *arr, char *element)
 
   // Copy the element and add it to the end of the array
 
-  int len = strlen(element);
+  char *copy = strdup(element);
+  arr->elements[arr->count] = copy;
 
-  for (int i = 0; i < len; i++)
-  {
-    arr->elements[i] = &element[i];
-  }
+  // we want to copy addresses to our storage array which is arr->elements
+  // char ** = address pointing to an address of a strings. Like a box holding multiple addresses
+  // difficult to store strings as arrays because we don't know how long the string will be. Pointer is easier
+  // use strdup. It will malloc and do the memcopy. return type will be char*
+  // a pointer to the block of memory holding the string
 
   // Increment count by 1
   arr->count = arr->count + 1;
@@ -176,7 +186,7 @@ int main(void)
   Array *arr = create_array(1);
 
   // char arr[4];
-  // arr = [ 2, 3, 4, 5 ];
+  // *arr = [ 2, 3, 4, 5 ];
   // resize_array(arr);
 
   // arr_insert(arr, "STRING1", 0);
@@ -185,6 +195,10 @@ int main(void)
   // arr_insert(arr, "STRING3", 1);
   // arr_print(arr);
   // arr_remove(arr, "STRING3");
+
+  // I created arr_read test
+  arr_read(arr, 0);
+
   arr_print(arr);
 
   // destroy_array(arr);
