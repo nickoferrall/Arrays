@@ -201,7 +201,7 @@ void arr_remove(Array *arr, char *element)
   // Shift over every element after the removed element to the left one position
   for (int i = index; i < arr->count; i++)
   {
-    arr->elements[i + 1] = arr->elements[i];
+    arr->elements[i] = arr->elements[i + 1];
   }
 
   // Decrement count by 1
@@ -232,23 +232,18 @@ int main(void)
 
   Array *arr = create_array(1);
 
-  // char arr[4];
-  // *arr = [ 2, 3, 4, 5 ];
-  // resize_array(arr);
-
-  // arr_insert(arr, "STRING1", 0);
-  // arr_append(arr, "STRING4");
+  arr_insert(arr, "STRING1", 0);
+  arr_append(arr, "STRING4");
   arr_insert(arr, "STRING2", 0);
-  // arr_insert(arr, "STRING3", 1);
-  // arr_print(arr);
-  // arr_remove(arr, "STRING3");
+  arr_insert(arr, "STRING3", 1);
+  arr_print(arr);
+  arr_remove(arr, "STRING3");
 
-  // I created arr_read test
-  // arr_read(arr, 0);
+  arr_read(arr, 0);
 
   arr_print(arr);
 
-  // destroy_array(arr);
+  destroy_array(arr);
 
   return 0;
 }
