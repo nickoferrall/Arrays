@@ -40,11 +40,12 @@ Array *create_array(int capacity)
 void destroy_array(Array *arr)
 {
   // Free all elements
-  // printf("What is the size of arr.. %lu\n", sizeof(arr));
-  for (int i = 0; i < sizeof(arr); i++)
+  for (int i = 0; i < arr->capacity; i++)
   {
-    free(&arr[i]);
+    free(arr->elements[i]);
   }
+
+  free(arr->elements);
   // Free array
   free(arr);
 }
@@ -53,26 +54,37 @@ void destroy_array(Array *arr)
 //  * Create a new elements array with double capacity and copy elements
 //  * from old to new
 //  *****/
-// void resize_array(Array *arr)
-// {
+void resize_array(Array *arr)
+{
 
-//   // Create a new element storage with double capacity
-//   char **storage = malloc(2 * (arr->capacity));
+  // Create a new element storage with double capacity
+  // char **storage = malloc(2 * (arr->capacity));
 
-//   printf("The storage of resizee... %p\n", &storage);
+  char **storage;
+  storage = create_array(2 * (arr->capacity));
 
-//   // Copy elements into the new storage
-//   for (int i = 0; i < arr->capacity; i++)
-//   {
-//     storage[i] = arr->elements[i];
-//   }
+  // Copy elements into the new storage
+  for (int i = 0; i < arr->count; i++) // this is copying the pointers
+  {
+    storage[i] = arr->elements[i];
+  }
 
-//   // Free the old elements array (but NOT the strings they point to)
-//   free(arr->elements);
+  // Free the old elements array (but NOT the strings they point to)
+  // for (int i = 0; i < strlen(&arr->elements); i++)
+  // {
+  //   free(&arr->elements[i]);
+  // }
+  free(arr->elements);
+  // free(arr);
 
-//   // Update the elements and capacity to new values
-//   // arr-> elements = storage
-// }
+  // Update the elements and capacity to new values
+  arr->capacity = 2 * (arr->capacity);
+  arr->elements = storage;
+  // for (int i = 0; i <= arr->count; i++)
+  // {
+  //   arr->elements[i] = storage[i];
+  // }
+}
 
 // /************************************
 //  *
@@ -141,7 +153,7 @@ void arr_append(Array *arr, char *element)
   // a pointer to the block of memory holding the string
 
   // Increment count by 1
-  arr->count = arr->count + 1;
+  arr->count++;
 }
 
 // /*****
