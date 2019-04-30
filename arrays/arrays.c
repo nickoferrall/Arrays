@@ -182,16 +182,31 @@ void arr_append(Array *arr, char *element)
 //  *
 //  * Throw an error if the value is not found.
 //  *****/
-// void arr_remove(Array *arr, char *element)
-// {
+void arr_remove(Array *arr, char *element)
+{
 
-//   // Search for the first occurence of the element and remove it.
-//   // Don't forget to free its memory!
+  // Search for the first occurence of the element and remove it.
+  // Don't forget to free its memory!
+  int index;
+  for (int i = 0; i < arr->count; i++)
+  {
+    if (*arr->elements[i] == *element)
+    {
+      free(arr->elements[i]);
+      index = i;
+      break;
+    }
+  }
 
-//   // Shift over every element after the removed element to the left one position
+  // Shift over every element after the removed element to the left one position
+  for (int i = index; i < arr->count; i++)
+  {
+    arr->elements[i + 1] = arr->elements[i];
+  }
 
-//   // Decrement count by 1
-// }
+  // Decrement count by 1
+  arr->count--;
+}
 
 /*****
  * Utility function to print an array.
