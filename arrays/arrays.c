@@ -58,10 +58,11 @@ void resize_array(Array *arr)
 {
 
   // Create a new element storage with double capacity
-  // char **storage = malloc(2 * (arr->capacity));
+  char **storage = malloc(2 * (arr->capacity * (sizeof(char *))));
 
-  char **storage;
-  storage = create_array(2 * (arr->capacity));
+  // char **storage;
+  // Array **storage;
+  // storage = create_array(2 * (arr->capacity));
 
   // Copy elements into the new storage
   for (int i = 0; i < arr->count; i++) // this is copying the pointers
@@ -119,19 +120,34 @@ char *arr_read(Array *arr, int index)
 // /*****
 //  * Insert an element to the array at the given index
 //  *****/
-// void arr_insert(Array *arr, char *element, int index)
-// {
+void arr_insert(Array *arr, char *element, int index)
+{
 
-//   // Throw an error if the index is greater than the current count
+  // Throw an error if the index is greater than the current count
+  if (index > arr->count)
+  {
+    printf("Error: index is not valid.");
+  }
 
-//   // Resize the array if the number of elements is over capacity
+  // Resize the array if the number of elements is over capacity
+  if (strlen(element) > arr->capacity)
+  {
+    resize_array(arr);
+  }
 
-//   // Move every element after the insert index to the right one position
+  // Move every element after the insert index to the right one position
+  for (int i = arr->count; i > index; i--)
+  {
+    arr->elements[i] = arr->elements[i - 1];
+  }
 
-//   // Copy the element and add it to the array
+  // Copy the element and add it to the array
+  char *copy = strdup(element);
+  arr->elements[index] = copy;
 
-//   // Increment count by 1
-// }
+  // Increment count by 1
+  arr->count++;
+}
 
 // /*****
 //  * Append an element to the end of the array
@@ -140,6 +156,10 @@ void arr_append(Array *arr, char *element)
 {
   // Resize the array if the number of elements is over capacity
   // or throw an error if resize isn't implemented yet.
+  if (arr->capacity <= arr->count)
+  {
+    resize_array(arr);
+  }
 
   // Copy the element and add it to the end of the array
 
@@ -202,14 +222,14 @@ int main(void)
   // resize_array(arr);
 
   // arr_insert(arr, "STRING1", 0);
-  arr_append(arr, "STRING4");
-  // arr_insert(arr, "STRING2", 0);
+  // arr_append(arr, "STRING4");
+  arr_insert(arr, "STRING2", 0);
   // arr_insert(arr, "STRING3", 1);
   // arr_print(arr);
   // arr_remove(arr, "STRING3");
 
   // I created arr_read test
-  arr_read(arr, 0);
+  // arr_read(arr, 0);
 
   arr_print(arr);
 
