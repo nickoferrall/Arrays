@@ -40,7 +40,7 @@ Array *create_array(int capacity)
 void destroy_array(Array *arr)
 {
   // Free all elements
-  for (int i = 0; i < arr->capacity; i++)
+  for (int i = 0; i < arr->count; i++)
   {
     free(arr->elements[i]);
   }
@@ -130,7 +130,8 @@ void arr_insert(Array *arr, char *element, int index)
   }
 
   // Resize the array if the number of elements is over capacity
-  if (strlen(element) > arr->capacity)
+  // if (strlen(element) > (unsigned)arr->capacity)
+  if (arr->count >= arr->capacity)
   {
     resize_array(arr);
   }
@@ -187,10 +188,11 @@ void arr_remove(Array *arr, char *element)
 
   // Search for the first occurence of the element and remove it.
   // Don't forget to free its memory!
-  int index;
+  int index = 0;
   for (int i = 0; i < arr->count; i++)
   {
-    if (*arr->elements[i] == *element)
+    // if (*arr->elements[i] == *element)
+    if (strcmp(arr->elements[i], element) == 0)
     {
       free(arr->elements[i]);
       index = i;
@@ -227,24 +229,24 @@ void arr_print(Array *arr)
 }
 
 // #ifndef TESTING
-int main(void)
-{
+// int main(void)
+// {
 
-  Array *arr = create_array(1);
+//   Array *arr = create_array(1);
 
-  arr_insert(arr, "STRING1", 0);
-  arr_append(arr, "STRING4");
-  arr_insert(arr, "STRING2", 0);
-  arr_insert(arr, "STRING3", 1);
-  arr_print(arr);
-  arr_remove(arr, "STRING3");
+//   arr_insert(arr, "STRING1", 0);
+//   arr_append(arr, "STRING4");
+//   arr_insert(arr, "STRING2", 0);
+//   arr_insert(arr, "STRING3", 1);
+//   arr_print(arr);
+//   arr_remove(arr, "STRING3");
 
-  arr_read(arr, 0);
+//   arr_read(arr, 0);
 
-  arr_print(arr);
+//   arr_print(arr);
 
-  destroy_array(arr);
+//   destroy_array(arr);
 
-  return 0;
-}
+//   return 0;
+// }
 // #endif
