@@ -60,10 +60,6 @@ void resize_array(Array *arr)
   // Create a new element storage with double capacity
   char **storage = malloc(2 * (arr->capacity * (sizeof(char *))));
 
-  // char **storage;
-  // Array **storage;
-  // storage = create_array(2 * (arr->capacity));
-
   // Copy elements into the new storage
   for (int i = 0; i < arr->count; i++) // this is copying the pointers
   {
@@ -71,20 +67,12 @@ void resize_array(Array *arr)
   }
 
   // Free the old elements array (but NOT the strings they point to)
-  // for (int i = 0; i < strlen(&arr->elements); i++)
-  // {
-  //   free(&arr->elements[i]);
-  // }
   free(arr->elements);
   // free(arr);
 
   // Update the elements and capacity to new values
   arr->capacity = 2 * (arr->capacity);
   arr->elements = storage;
-  // for (int i = 0; i <= arr->count; i++)
-  // {
-  //   arr->elements[i] = storage[i];
-  // }
 }
 
 // /************************************
@@ -130,7 +118,6 @@ void arr_insert(Array *arr, char *element, int index)
   }
 
   // Resize the array if the number of elements is over capacity
-  // if (strlen(element) > (unsigned)arr->capacity)
   if (arr->count >= arr->capacity)
   {
     resize_array(arr);
@@ -191,7 +178,6 @@ void arr_remove(Array *arr, char *element)
   int index = 0;
   for (int i = 0; i < arr->count; i++)
   {
-    // if (*arr->elements[i] == *element)
     if (strcmp(arr->elements[i], element) == 0)
     {
       free(arr->elements[i]);
